@@ -19,11 +19,31 @@ repositories {
     mavenLocal()
 }
 
+dependencies {
+    implementation("com.zaxxer:HikariCP:5.0.1") {
+        exclude group: "org.slf4j", module: "slf4j-api"
+    }
+
+    implementation project(':nms:common')
+    implementation project(':nms:v1_8_R3')
+    implementation project(':api')
+}
+
 shadowJar {
     destinationDirectory = file("$rootDir/output")
 
     minimize {
+        // Reflections
         exclude(dependency('org.reflections:.*:.*'))
+
+        // Hikari
+        exclude(dependency('com.zaxxer:.*:.*'))
+
+        // Modules
+        exclude(project(":nms:common"))
+        exclude(project(":nms:v1_8_R3"))
+        exclude(project(":core"))
+        exclude(project(":api"))
     }
 
     archiveFileName = "HeavenlyFramework-${project.version}.jar"
