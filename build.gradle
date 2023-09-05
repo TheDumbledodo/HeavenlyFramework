@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group 'dev.dumble.heavenlyframework'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url 'https://oss.sonatype.org/content/groups/public/' }
+    maven { url 'https://repo.papermc.io/repository/maven-public/' }
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+    maven { url 'https://projectlombok.org/edge-releases' }
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:edge-SNAPSHOT'
+    annotationProcessor 'org.projectlombok:lombok:edge-SNAPSHOT'
+
+    compileOnly 'org.jetbrains:annotations:24.0.1'
+    annotationProcessor 'org.jetbrains:annotations:24.0.1'
+}
