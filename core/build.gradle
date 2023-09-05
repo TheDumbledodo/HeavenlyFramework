@@ -1,0 +1,30 @@
+buildscript {
+    repositories {
+        maven { url uri("https://plugins.gradle.org/m2/") }
+    }
+    dependencies {
+        classpath 'com.github.johnrengelman:shadow:8.1.1'
+    }
+}
+
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "8.1.1"
+}
+
+group 'dev.dumble.heavenly.framework.core'
+version '1.0.0-alpha'
+
+repositories {
+    mavenLocal()
+}
+
+shadowJar {
+    destinationDirectory = file("$rootDir/output")
+
+    minimize {
+        exclude(dependency('org.reflections:.*:.*'))
+    }
+
+    archiveFileName = "HeavenlyFramework-${project.version}.jar"
+}

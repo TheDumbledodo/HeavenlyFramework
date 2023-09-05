@@ -15,6 +15,7 @@ allprojects {
         repositories {
             mavenCentral()
             jcenter()
+            google()
             maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
             maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
             maven { url 'https://projectlombok.org/edge-releases' }
@@ -22,12 +23,12 @@ allprojects {
 
         dependencies {
             implementation 'org.reflections:reflections:0.10.2'
-            implementation 'com.google.code.gson:gson:2.10.1'
+            compileOnly 'com.google.code.gson:gson:2.10.1'
 
             compileOnly 'org.projectlombok:lombok:edge-SNAPSHOT'
             annotationProcessor 'org.projectlombok:lombok:edge-SNAPSHOT'
 
-            implementation 'org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT'
+            compileOnly 'org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT'
 
             compileOnly 'org.jetbrains:annotations:24.0.1'
             annotationProcessor 'org.jetbrains:annotations:24.0.1'
@@ -35,8 +36,6 @@ allprojects {
             implementation("com.zaxxer:HikariCP:5.0.1") {
                 exclude group: "org.slf4j", module: "slf4j-api"
             }
-
-            implementation project(path: ':api')
         }
     }
 

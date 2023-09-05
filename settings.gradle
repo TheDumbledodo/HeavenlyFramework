@@ -4,3 +4,4 @@ include 'nms:common'
 include ':nms:v1_8_R3'
 
 include 'api'
+include 'core'
