@@ -12,10 +12,6 @@ allprojects {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
 
-        test {
-            enabled = false
-        }
-
         repositories {
             mavenCentral()
             jcenter()
