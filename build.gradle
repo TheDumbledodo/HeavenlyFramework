@@ -1,27 +1,52 @@
-plugins {
-    id 'java'
-}
+allprojects {
 
-group 'dev.dumble.heavenlyframework'
-version '1.0-SNAPSHOT'
+    group = 'dev.dumble.heavenly.framework'
+    version = '1.0.0-alpha'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+    ext {
+        projectVersion = "1.0.0-alpha"
+    }
 
-repositories {
-    mavenCentral()
-    jcenter()
-    maven { url 'https://oss.sonatype.org/content/groups/public/' }
-    maven { url 'https://repo.papermc.io/repository/maven-public/' }
-    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
-    maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
-    maven { url 'https://projectlombok.org/edge-releases' }
-}
+    apply plugin: 'java'
+    afterEvaluate {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
 
-dependencies {
-    compileOnly 'org.projectlombok:lombok:edge-SNAPSHOT'
-    annotationProcessor 'org.projectlombok:lombok:edge-SNAPSHOT'
+        test {
+            enabled = false
+        }
 
-    compileOnly 'org.jetbrains:annotations:24.0.1'
-    annotationProcessor 'org.jetbrains:annotations:24.0.1'
+        repositories {
+            mavenCentral()
+            jcenter()
+            maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+            maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+            maven { url 'https://projectlombok.org/edge-releases' }
+        }
+
+        dependencies {
+            implementation 'org.reflections:reflections:0.10.2'
+            implementation 'com.google.code.gson:gson:2.10.1'
+
+            compileOnly 'org.projectlombok:lombok:edge-SNAPSHOT'
+            annotationProcessor 'org.projectlombok:lombok:edge-SNAPSHOT'
+
+            implementation 'org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT'
+
+            compileOnly 'org.jetbrains:annotations:24.0.1'
+            annotationProcessor 'org.jetbrains:annotations:24.0.1'
+
+            implementation("com.zaxxer:HikariCP:5.0.1") {
+                exclude group: "org.slf4j", module: "slf4j-api"
+            }
+
+            implementation project(path: ':api')
+        }
+    }
+
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.encoding = 'UTF-8'
+        }
+    }
 }

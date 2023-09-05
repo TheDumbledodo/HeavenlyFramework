@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+group 'dev.dumble.framework.nms.v1_8_R3'
+version '1.0.0-alpha'
+
+repositories {
+    flatDir { dirs 'libs' }
+}
+
+dependencies {
+    implementation 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
+    compileOnly files("$rootDir/libs/craftbukkit-1.8.8-R0.1.jar")
+
+    implementation project(path: ':api')
+    implementation project(path: ':nms:common')
+}
