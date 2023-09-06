@@ -1,15 +1,10 @@
-/*
- * Copyright (C) filoghost and contributors
- *
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
 package dev.dumble.heavenly.framework.core;
 
 import dev.dumble.common.NMSManager;
-import dev.dumble.heavenly.framework.core.common.ExceptionCollector;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import dev.dumble.heavenly.framework.core.exception.OutdatedVersionException;
+import dev.dumble.heavenly.framework.core.exception.UnknownVersionException;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 
 import java.util.regex.Matcher;
@@ -18,19 +13,19 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public enum NMSVersion {
 
-    /* 1.8 - 1.8.2     */ v1_8_R1(NMSManagerFactory.outdatedVersion("1.8.4")),
+    /* 1.8.4 - 1.8.9   */ v1_8_R3(() -> new dev.dumble.framework.nms.v1_8_R3.packet.VersionNMSManager()),
+
     /* 1.8.3           */ v1_8_R2(NMSManagerFactory.outdatedVersion("1.8.4")),
+    /* 1.8 - 1.8.2     */ v1_8_R1(NMSManagerFactory.outdatedVersion("1.8.4")),
 
-    /* 1.8.4 - 1.8.9   */ v1_8_R3(collector -> new dev.dumble.framework.nms.v1_8_R3.packet.VersionNMSManager()),
-
-    /* Other versions  */ UNKNOWN(null);
+    /* Other versions  */ UNKNOWN(NMSManagerFactory.unknownVersion());
 
     private static final NMSVersion CURRENT_VERSION = NMSVersion.detectCurrentVersion();
 
     private final NMSManagerFactory nmsManagerFactory;
 
-    public NMSManager createNMSManager(ExceptionCollector exceptionCollector) throws OutdatedVersionException, UnknownVersionException {
-        return nmsManagerFactory.create(exceptionCollector);
+    public NMSManager createNMSManager() throws OutdatedVersionException, UnknownVersionException {
+        return nmsManagerFactory.check();
     }
 
     public static NMSVersion getCurrent() {
@@ -56,27 +51,16 @@ public enum NMSVersion {
     @FunctionalInterface
     private interface NMSManagerFactory {
 
-        NMSManager create(ExceptionCollector exceptionCollector) throws UnknownVersionException, OutdatedVersionException;
+        NMSManager check() throws UnknownVersionException, OutdatedVersionException;
 
+        @SneakyThrows
         static NMSManagerFactory unknownVersion() {
-            return exceptionCollector -> {
-                throw new UnknownVersionException();
-            };
+            throw new UnknownVersionException();
         }
 
+        @SneakyThrows
         static NMSManagerFactory outdatedVersion(String minimumSupportedVersion) {
-            return exceptionCollector -> {
-                throw new OutdatedVersionException(minimumSupportedVersion);
-            };
+            throw new OutdatedVersionException(minimumSupportedVersion);
         }
     }
-
-    @Getter
-    @AllArgsConstructor
-    public static class OutdatedVersionException extends Exception {
-
-        private final String minimumSupportedVersion;
-    }
-
-    public static class UnknownVersionException extends Exception {}
 }
