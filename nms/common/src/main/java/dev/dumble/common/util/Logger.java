@@ -1,6 +1,5 @@
-package dev.dumble.heavenly.framework.core.util;
+package dev.dumble.common.util;
 
-import dev.dumble.heavenly.framework.core.HeavenlyPlugin;
 import lombok.experimental.UtilityClass;
 
 import java.util.logging.Level;
@@ -31,8 +30,8 @@ public class Logger {
     public void severe(String msg, Throwable thrown) {
         Logger.log(Level.SEVERE, msg, thrown);
     }
-
+    
     private void log(Level level, String msg, Throwable thrown) {
-        HeavenlyPlugin.getInstance().getLogger().log(level, msg, thrown);
+        java.util.logging.Logger.getGlobal().log(level, msg, thrown);
     }
 }

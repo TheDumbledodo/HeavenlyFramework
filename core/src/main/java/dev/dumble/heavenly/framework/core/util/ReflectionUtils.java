@@ -1,4 +1,4 @@
-package dev.dumble.heavenly.framework.core.utils;
+package dev.dumble.heavenly.framework.core.util;
 
 import dev.dumble.heavenly.framework.core.HeavenlyPlugin;
 import lombok.SneakyThrows;
@@ -38,17 +38,16 @@ public class ReflectionUtils {
                     if (!name.endsWith(".class")) continue;
 
                     final String className = name.substring(0, name.length() - 6);
-
                     final Class<?> clazz = HeavenlyPlugin.class.getClassLoader().loadClass(className);
 
                     if (Modifier.isAbstract(clazz.getModifiers()) || CLASS_PATTERN.matcher(className).find()) continue;
 
                     classes.add(clazz);
                 } catch (Throwable ignored) {
+
                 }
             }
         }
-
         return classes;
     }
 }

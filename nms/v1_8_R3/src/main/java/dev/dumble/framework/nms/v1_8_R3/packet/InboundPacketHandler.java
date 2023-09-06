@@ -2,6 +2,7 @@ package dev.dumble.framework.nms.v1_8_R3.packet;
 
 import dev.dumble.common.PacketListener;
 import dev.dumble.api.container.Container;
+import dev.dumble.common.util.Logger;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import lombok.AllArgsConstructor;
@@ -37,7 +38,7 @@ public class InboundPacketHandler extends ChannelInboundHandlerAdapter {
                 if (packetListener.onMenuInteract(player, containerData)) return;
             }
         } catch (Throwable throwable) {
-            // todo: add loggers
+            Logger.severe("Unexpected error while inspecting inbound packet.", throwable);
         }
         super.channelRead(context, packet);
     }
