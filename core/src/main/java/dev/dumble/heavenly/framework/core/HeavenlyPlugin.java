@@ -1,6 +1,7 @@
 package dev.dumble.heavenly.framework.core;
 
 import dev.dumble.common.NMSManager;
+import dev.dumble.heavenly.framework.core.command.CommandManager;
 import dev.dumble.heavenly.framework.core.exception.OutdatedVersionException;
 import dev.dumble.heavenly.framework.core.exception.PluginEnableException;
 import dev.dumble.heavenly.framework.core.exception.UnknownVersionException;
@@ -20,11 +21,6 @@ public abstract class HeavenlyPlugin extends JavaPlugin {
 	public final void onLoad() {
 		HeavenlyPlugin.setInstance(this);
 
-		this.loaded();
-	}
-
-	@Override
-	public final void onEnable() {
 		try {
 			this.setNmsManager(NMSVersion.getCurrent().createNMSManager());
 
@@ -37,6 +33,13 @@ public abstract class HeavenlyPlugin extends JavaPlugin {
 		} catch (Throwable throwable) {
 			throw new PluginEnableException(throwable, "Couldn't initialize the NMS manager.");
 		}
+
+		this.loaded();
+	}
+
+	@Override
+	public final void onEnable() {
+		CommandManager.bootstrap(this);
 
 		this.enabled();
 	}
