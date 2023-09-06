@@ -33,9 +33,6 @@ shadowJar {
     destinationDirectory = file("$rootDir/output")
 
     minimize {
-        // Reflections
-        exclude(dependency('org.reflections:.*:.*'))
-
         // Hikari
         exclude(dependency('com.zaxxer:.*:.*'))
 

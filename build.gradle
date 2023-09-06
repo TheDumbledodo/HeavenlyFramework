@@ -23,14 +23,17 @@ allprojects {
         }
 
         dependencies {
+            // SpigotAPI
             compileOnly 'org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT'
 
-            implementation 'org.reflections:reflections:0.10.2'
+            // Gson
             compileOnly 'com.google.code.gson:gson:2.10.1'
 
+            // Lombok Annotation
             compileOnly 'org.projectlombok:lombok:edge-SNAPSHOT'
             annotationProcessor 'org.projectlombok:lombok:edge-SNAPSHOT'
 
+            // Jetbrains Annotation
             compileOnly 'org.jetbrains:annotations:24.0.1'
             annotationProcessor 'org.jetbrains:annotations:24.0.1'
         }
