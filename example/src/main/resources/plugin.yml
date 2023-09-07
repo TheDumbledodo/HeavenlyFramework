@@ -1,0 +1,6 @@
+name: ExamplePlugin
+version: '1.13'
+main: dev.dumble.heavenly.example.Example
+
+# Leave this alone
+commands:
