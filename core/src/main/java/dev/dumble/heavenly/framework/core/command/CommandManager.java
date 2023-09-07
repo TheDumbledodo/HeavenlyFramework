@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
 @UtilityClass
 public class CommandManager {
 
-    private final List<Class<?>> classes = new ArrayList<>();
+    public final List<HeavenlyCommand> HEAVENLY_COMMANDS = new ArrayList<>();
+    private final List<Class<?>> CLASSES = new ArrayList<>();
 
     public void setupFiles() {
         final List<Class<?>> heavenlyCommands = getHeavenlyClasses(Command.class);
@@ -61,6 +62,8 @@ public class CommandManager {
 
                 pluginCommand.setTabCompleter(command);
                 pluginCommand.setExecutor(command);
+
+                HEAVENLY_COMMANDS.add(command);
             } catch (Throwable throwable) {
                 plugin.getLogger().log(Level.SEVERE, "Unable to register " + clazz.getSimpleName() + " as a command.", throwable);
             }
@@ -69,14 +72,14 @@ public class CommandManager {
 
     @NotNull
     public List<Class<?>> getHeavenlyClasses(Class<? extends Annotation> annotation) {
-        if (classes.isEmpty())
+        if (CLASSES.isEmpty())
             ReflectionUtils.getRuntimeClasses()
                 .stream()
                 .filter(HeavenlyCommand.class::isAssignableFrom)
                 .filter(clazz -> clazz.isAnnotationPresent(HeavenlyRegistry.class))
-                .forEach(classes::add);
+                .forEach(CLASSES::add);
 
-        return classes.stream()
+        return CLASSES.stream()
                 .filter(clazz -> clazz.isAnnotationPresent(annotation))
                 .collect(Collectors.toList());
     }
