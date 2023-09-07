@@ -10,7 +10,7 @@ public @interface Cooldown {
     long duration() default -1;
     TimeUnit timeUnit() default TimeUnit.MILLISECONDS;
 
-    String denyMessage();
+    String denyMessage() default "";
     String bypassPermission() default "";
 
     boolean onCommand() default true;
