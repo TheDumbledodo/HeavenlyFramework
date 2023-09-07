@@ -18,6 +18,7 @@ allprojects {
             google()
             maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
             maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+            maven { url 'https://oss.sonatype.org/content/groups/public/' }
             maven { url 'https://projectlombok.org/edge-releases' }
             flatDir { dirs 'libs' }
         }
