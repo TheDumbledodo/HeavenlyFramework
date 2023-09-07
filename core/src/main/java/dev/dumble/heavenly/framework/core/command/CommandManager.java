@@ -4,14 +4,15 @@ import dev.dumble.heavenly.framework.core.annotation.Command;
 import dev.dumble.heavenly.framework.core.annotation.HeavenlyRegistry;
 import dev.dumble.heavenly.framework.core.util.ReflectionUtils;
 import dev.dumble.heavenly.framework.core.util.ResourceUtils;
-import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 @UtilityClass
@@ -20,9 +21,12 @@ public class CommandManager {
     private final List<Class<?>> classes = new ArrayList<>();
 
     public void setupFiles() {
+        final List<Class<?>> heavenlyCommands = getHeavenlyClasses(Command.class);
+        if (heavenlyCommands.isEmpty()) return;
+
         final List<String> strings = new ArrayList<>();
 
-        for (Class<?> clazz : getHeavenlyClasses(Command.class)) {
+        for (Class<?> clazz : heavenlyCommands) {
             final Command annotation = clazz.getAnnotation(Command.class);
 
             strings.add(String.format("  %s:", annotation.command()));
@@ -44,15 +48,22 @@ public class CommandManager {
         ResourceUtils.appendResourcesTextFile("plugin.yml", strings);
     }
 
-    @SneakyThrows
     public void bootstrap(JavaPlugin plugin) {
         for (Class<?> clazz : getHeavenlyClasses(Command.class)) {
-            final Command annotation = clazz.getAnnotation(Command.class);
+            try {
+                final Command annotation = clazz.getAnnotation(Command.class);
 
-            final Object instance = clazz.getConstructor(Command.class).newInstance(annotation);
-            final HeavenlyCommand command = (HeavenlyCommand) instance;
+                final Object instance = clazz.getConstructor(Command.class).newInstance(annotation);
+                final HeavenlyCommand command = (HeavenlyCommand) instance;
 
-            plugin.getCommand(command.getName());
+                final PluginCommand pluginCommand = plugin.getCommand(command.getName());
+                if (pluginCommand == null) continue;
+
+                pluginCommand.setTabCompleter(command);
+                pluginCommand.setExecutor(command);
+            } catch (Throwable throwable) {
+                plugin.getLogger().log(Level.SEVERE, "Unable to register " + clazz.getSimpleName() + " as a command.", throwable);
+            }
         }
     }
 
