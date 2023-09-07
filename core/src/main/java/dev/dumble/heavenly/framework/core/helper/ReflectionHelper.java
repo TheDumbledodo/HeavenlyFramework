@@ -1,4 +1,4 @@
-package dev.dumble.heavenly.framework.core.util;
+package dev.dumble.heavenly.framework.core.helper;
 
 import dev.dumble.heavenly.framework.core.HeavenlyPlugin;
 import lombok.SneakyThrows;
@@ -16,7 +16,7 @@ import java.util.jar.JarFile;
 import java.util.regex.Pattern;
 
 @UtilityClass
-public class ReflectionUtils {
+public class ReflectionHelper {
 
     private final Pattern CLASS_PATTERN = Pattern.compile("\\w+\\$[0-9]$");
 

@@ -2,8 +2,8 @@ package dev.dumble.heavenly.framework.core.command;
 
 import dev.dumble.heavenly.framework.core.annotation.Command;
 import dev.dumble.heavenly.framework.core.annotation.HeavenlyRegistry;
-import dev.dumble.heavenly.framework.core.util.ReflectionUtils;
-import dev.dumble.heavenly.framework.core.util.ResourceUtils;
+import dev.dumble.heavenly.framework.core.helper.ReflectionHelper;
+import dev.dumble.heavenly.framework.core.helper.ResourceHelper;
 import lombok.experimental.UtilityClass;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -46,7 +46,7 @@ public class CommandManager {
 
         strings.add(" ");
 
-        ResourceUtils.appendResourcesTextFile("plugin.yml", strings);
+        ResourceHelper.appendResourcesTextFile("plugin.yml", strings);
     }
 
     public void bootstrap(JavaPlugin plugin) {
@@ -73,7 +73,7 @@ public class CommandManager {
     @NotNull
     public List<Class<?>> getHeavenlyClasses(Class<? extends Annotation> annotation) {
         if (CLASSES.isEmpty())
-            ReflectionUtils.getRuntimeClasses()
+            ReflectionHelper.getRuntimeClasses()
                 .stream()
                 .filter(HeavenlyCommand.class::isAssignableFrom)
                 .filter(clazz -> clazz.isAnnotationPresent(HeavenlyRegistry.class))

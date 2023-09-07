@@ -1,4 +1,4 @@
-package dev.dumble.heavenly.framework.core.util;
+package dev.dumble.heavenly.framework.core.helper;
 
 import dev.dumble.heavenly.framework.core.HeavenlyPlugin;
 import lombok.SneakyThrows;
@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @UtilityClass
-public class ResourceUtils {
+public class ResourceHelper {
 
     @SneakyThrows
     public static void appendResourcesTextFile(String resourcePath, List<String> strings) {

@@ -1,7 +1,6 @@
 package dev.dumble.framework.nms.v1_8_R3.packet;
 
-import dev.dumble.common.NMSManager;
-import dev.dumble.common.PacketListener;
+import dev.dumble.common.packet.NMSManager;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelPipeline;
@@ -15,22 +14,21 @@ import java.util.function.Consumer;
 public class VersionNMSManager implements NMSManager {
 
 	@Override
-	public void injectPacketListener(Player player, PacketListener packetListener) {
-		final String handler = InboundPacketHandler.HANDLER_NAME;
-
+	public void injectPacketListener(Player player) {
 		this.modifyPipeline(player,
 				(ChannelPipeline pipeline) -> {
+					final String handler = PacketHandler.HANDLER_NAME;
 
 					final ChannelHandler currentListener = pipeline.get(handler);
 					if (currentListener != null) pipeline.remove(handler);
 
-					pipeline.addBefore("packet_handler", handler, new InboundPacketHandler(player, packetListener));
+					pipeline.addBefore("packet_handler", handler, new PacketHandler(player));
 				});
 	}
 
 	@Override
 	public void uninjectPacketListener(Player player) {
-		final String handler = InboundPacketHandler.HANDLER_NAME;
+		final String handler = PacketHandler.HANDLER_NAME;
 
 		this.modifyPipeline(player, (ChannelPipeline pipeline) -> {
 			final ChannelHandler currentListener = pipeline.get(handler);

@@ -1,6 +1,6 @@
 package dev.dumble.heavenly.framework.core;
 
-import dev.dumble.common.NMSManager;
+import dev.dumble.common.packet.NMSManager;
 import dev.dumble.heavenly.framework.core.exception.OutdatedVersionException;
 import dev.dumble.heavenly.framework.core.exception.UnknownVersionException;
 import lombok.RequiredArgsConstructor;
