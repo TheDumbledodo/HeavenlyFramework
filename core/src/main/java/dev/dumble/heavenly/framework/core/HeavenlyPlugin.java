@@ -5,6 +5,7 @@ import dev.dumble.heavenly.framework.core.command.CommandManager;
 import dev.dumble.heavenly.framework.core.exception.OutdatedVersionException;
 import dev.dumble.heavenly.framework.core.exception.PluginEnableException;
 import dev.dumble.heavenly.framework.core.exception.UnknownVersionException;
+import dev.dumble.heavenly.framework.core.listener.PlayerListener;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,6 +37,7 @@ public abstract class HeavenlyPlugin extends JavaPlugin {
 
 		CommandManager.setupFiles();
 
+		this.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 		this.loaded();
 	}
 
