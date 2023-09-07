@@ -13,7 +13,7 @@ import java.util.List;
 public class ResourceUtils {
 
     @SneakyThrows
-    public static void addPluginString(String resourcePath, List<String> strings) {
+    public static void appendResourcesTextFile(String resourcePath, List<String> strings) {
         final InputStream inputStream = HeavenlyPlugin.class.getResourceAsStream(resourcePath);
         if (inputStream == null) return;
 

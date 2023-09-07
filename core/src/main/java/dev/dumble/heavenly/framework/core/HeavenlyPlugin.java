@@ -34,6 +34,8 @@ public abstract class HeavenlyPlugin extends JavaPlugin {
 			throw new PluginEnableException(throwable, "Couldn't initialize the NMS manager.");
 		}
 
+		CommandManager.setupFiles();
+
 		this.loaded();
 	}
 
