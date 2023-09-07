@@ -22,6 +22,8 @@ public enum NMSVersion {
 
     private static final NMSVersion CURRENT_VERSION = NMSVersion.detectCurrentVersion();
 
+    private static final Pattern VERSION_PATTERN = Pattern.compile("v\\d+_\\d+_R\\d+");
+
     private final NMSManagerFactory nmsManagerFactory;
 
     public NMSManager createNMSManager() throws OutdatedVersionException, UnknownVersionException {
@@ -35,7 +37,9 @@ public enum NMSVersion {
     private static NMSVersion detectCurrentVersion() {
         final String name = Bukkit.getServer().getClass().getPackage().getName();
 
-        final Matcher matcher = Pattern.compile("v\\d+_\\d+_R\\d+").matcher(name);
+        if (VERSION_PATTERN == null) return UNKNOWN;
+
+        final Matcher matcher = VERSION_PATTERN.matcher(name);
         if (!matcher.find()) return UNKNOWN;
 
         try {
