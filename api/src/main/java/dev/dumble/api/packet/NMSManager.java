@@ -1,4 +1,4 @@
-package dev.dumble.common.packet;
+package dev.dumble.api.packet;
 
 import org.bukkit.entity.Player;
 

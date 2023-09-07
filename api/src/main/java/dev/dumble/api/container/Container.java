@@ -40,7 +40,7 @@ public class Container {
 	public void callContainerInteraction(Player player, DataHolder data) {
 		if (containerListener == null) return;
 
-		containerListener.onWindowInteraction(player, data);
+		containerListener.onClickListener(player, data);
 	}
 
 	public static ContainerBuilder builder() {

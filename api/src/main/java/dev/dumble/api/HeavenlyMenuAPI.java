@@ -17,7 +17,7 @@ public interface HeavenlyMenuAPI {
 	 *
 	 * @param container the menu container to be displayed
 	 * @param player the player to whom the menu will be shown
-	 * @since 1.0.0-alpha
+	 * @since ${projectVersion}
 	 */
 	void showMenu(Container container, Player player);
 
@@ -26,7 +26,7 @@ public interface HeavenlyMenuAPI {
 	 *
 	 * @param container the menu container to be displayed
 	 * @param players a collection of players to whom the menu will be shown
-	 * @since 1.0.0-alpha
+	 * @since ${projectVersion}
 	 */
 	void showMenu(Container container, Collection<Player> players);
 
@@ -35,7 +35,7 @@ public interface HeavenlyMenuAPI {
 	 *
 	 * @param container the menu container to be displayed
 	 * @param players an array of players to whom the menu will be shown
-	 * @since 1.0.0-alpha
+	 * @since ${projectVersion}
 	 */
 	void showMenu(Container container, Player... players);
 }

@@ -2,10 +2,16 @@ package dev.dumble.api.container;
 
 import org.bukkit.entity.Player;
 
-import static dev.dumble.api.container.Container.*;
+import static dev.dumble.api.container.Container.DataHolder;
 
-@FunctionalInterface
-public interface ContainerListener {
+public abstract class ContainerListener {
 
-	void onWindowInteraction(Player player, DataHolder dataHolder);
+	/**
+	 * Listens for clicks for the container
+	 *
+	 * @param player the player who clicked
+	 * @param dataHolder the data stored in the clicked slot
+	 * @since ${projectVersion}
+	 */
+	public abstract void onClickListener(Player player, DataHolder dataHolder);
 }
