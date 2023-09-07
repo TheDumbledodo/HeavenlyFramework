@@ -1,5 +1,6 @@
 package dev.dumble.heavenly.framework.core.command;
 
+import dev.dumble.heavenly.framework.core.HeavenlyPlugin;
 import dev.dumble.heavenly.framework.core.annotation.Cooldown;
 import dev.dumble.heavenly.framework.core.annotation.Permission;
 import dev.dumble.heavenly.framework.core.expiring.ExpiringSet;
@@ -7,10 +8,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,6 +17,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 
 @ToString
 @Getter
@@ -87,7 +86,16 @@ public abstract class HeavenlyCommand implements CommandExecutor, TabCompleter {
             }
         }
 
-        this.onCommand();
+        try {
+            this.onCommand();
+        } catch (CommandException ignored) {
+        } catch (Throwable throwable) {
+            HeavenlyPlugin.getInstance()
+                    .getLogger()
+                    .log(Level.SEVERE, "Unable to execute " + this.getName() + " command.", throwable);
+
+            sender.sendMessage(/* TODO: config */ "An Error Accrued, contact administrators for more information.");
+        }
 
         if (this.expiringCooldown != null && sender instanceof Player && this.cooldownOnCommand) {
             final Player player = ((Player) sender);
@@ -99,10 +107,21 @@ public abstract class HeavenlyCommand implements CommandExecutor, TabCompleter {
         return false;
     }
 
-    @Override @Nullable
+    @Override
+    @Nullable
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         this.setFields(sender, label, args);
-        return this.tabComplete();
+
+        try {
+            return this.tabComplete();
+        } catch (Throwable throwable) {
+            HeavenlyPlugin.getInstance()
+                    .getLogger()
+                    .log(Level.SEVERE, "Unable to execute " + this.getName() + " tab complete.", throwable);
+
+            sender.sendMessage(/* TODO: config */ "An Error Accrued, contact administrators for more information.");
+            return NO_COMPLETE;
+        }
     }
 
     private void setFields(CommandSender sender, String label, String[] args) {
